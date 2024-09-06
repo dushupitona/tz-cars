@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Car Template</title>
+    <link rel="stylesheet" href="{% static 'styles/car_detail_style.css' %}">
+</head>
+<body>
+    {% include 'car_manager/header.html' %}
+    <div class="car-detail-container">
+	    <div class="container">
+	    	<img src="https://s.tmimgcdn.com/scr/800x500/275600/abstract-car-logo-design-template-v6_275611-original.jpg" alt="Car Image">
+	    	<div class="characteristics">
+	    		<h2>Characteristics:</h2>
+	    		<div class="car_field">
+                    <span class="span-title">Make: </span>
+                    <span class="span-prop">{{ object.make }}</span>
+                </div>
+                <div class="car_field">
+                    <span class="span-title">Model: </span>
+                    <span class="span-prop">{{ object.model }}</span>
+                </div>
+                <div class="car_field">
+                    <span class="span-title">Year: </span>
+                    <span class="span-prop">{{ object.year }}</span>
+                </div>
+                <div class="car_field">
+                    <span class="span-title">Description: </span>
+                    <p>{{ object.description }}</p>
+                </div>
+                <div class="car_field">
+                    <span class="span-title">Created at: </span>
+                    <span class="span-prop">{{ object.created_at }}</span>
+                </div>
+                <div class="car_field">
+                    <span class="span-title">Updated at: </span>
+                    <span class="span-prop">{{ object.updated_at }}</span>
+                </div>
+                <div class="car_field">
+                    <span class="span-title">Owner: </span>
+                    <span class="span-prop">{{ object.owner.username }}</span>
+                </div>
+	    	</div>
+	    </div>
+	    <div class="comments">
+            <h2>Comments</h2>
+            {% for comment in object.comments.all %}
+                <div class="comment-block">
+                    <div class="comment_title">
+                        <span class="username">{{ comment.author }}</span>
+                        <span class="comment_date">{{ comment.created_at }}</span>
+                    </div>
+                    <p>{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+            <form class="comment-form" action="{% url 'car_detail' object.id %}" method="post">
+                {% csrf_token %}
+                {{ comment_form.content }}
+                <button type="submit">Submit comment</button>
+            </form>
+          </div>
+    </div>  
+</body>
+</html>

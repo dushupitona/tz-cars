@@ -1,0 +1,26 @@
+.top-bar {
+    background-color: #86C232;
+    color: #222629;
+    padding: 1em;
+    display: block;
+    font-size: large;
+}
+  
+.nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+  
+.nav li {
+    margin-right: 20px;
+    color: #222629;
+}
+  
+.nav a {
+    color: #222629;
+    text-decoration: none;
+}

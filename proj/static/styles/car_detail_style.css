@@ -1,0 +1,113 @@
+.container {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.car-detail-container {
+    background-color: #86C232;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.car_field {
+    margin-top: 15px;
+}
+
+
+.span-title {
+    color: #474B4F;
+}
+
+span {
+    font-size: larger;
+}
+
+.span-prop {
+    color: black;
+}
+
+.image {
+    width: 30%;
+    margin: 10px;
+}
+.characteristics {
+    width: 60%;
+    margin-left: 40px;
+}
+.comments {
+    margin-top: 20px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #222629;
+}
+
+img {
+    height: 400px;
+    width: 600px;
+    margin-top: 20px;   
+}
+
+h2 {
+    color: black;
+}
+
+
+/* comments */
+
+.comments {
+    max-width: 800px;
+}
+  
+.comment-block {
+    display: inline-block;
+    min-height: 100px;
+    width: 802px;
+    background-color: whitesmoke;
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    margin-bottom: 10px;
+}
+  
+.comment-form {
+    margin-top: 20px;
+}
+  
+.comment-form input[type="text"], .comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+}
+  
+.comment-form button[type="submit"] {
+    background-color: #1a6b01;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.comment-form button[type="submit"]:hover {
+    background-color: #114900;
+}
+
+.username {
+    color: #474B4F;
+}
+
+.comment_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.comment_date {
+    font-size: small;
+    color: #474B4F;
+}

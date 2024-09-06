@@ -1,0 +1,20 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/header_style.css' %}">
+<header class="top-bar">    
+    <nav class="nav">
+        {% if user.is_authenticated %}
+            <ul style="justify-content: space-between;">
+                <a href="{% url 'index' %}"><li>Main page</li></a>
+                <div style="display: flex; flex-direction: row;">
+                    <li><a href="">My cars</a></li>
+                    <li><a href="">Logout</a></li>
+                </div>
+                
+            </ul>
+        {% else %}
+            <ul style="justify-content: right;">
+                <li><a href="{% url 'logout' %}">Login</a></li>
+            </ul>
+        {% endif %}
+    </nav>
+</header>
