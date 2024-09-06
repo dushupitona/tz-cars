@@ -72,3 +72,18 @@ img {
     width: 310px;
     margin-top: 20px;   
 }
+
+.user_title {
+    font-size: xx-large;
+    color: #86C232;
+}
+
+.user_title_block {
+    text-align: center;
+    margin: 20px;
+  }
+
+.add_img {
+    height: 200px;
+    width: 200px; 
+}

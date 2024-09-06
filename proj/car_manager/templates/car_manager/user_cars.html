@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/user_cars_style.css' %}">
+    <title>Index</title>    
+</head>
+<body>
+    {% include 'car_manager/header.html' %}
+    <div class="user_title_block">
+        <span class="user_title">Your cars</span><span class="user_title"> ({{ user.username }})</span>
+    </div>
+    
+    <div class="car_container">
+        <a href="">
+            <div class="car-card">
+
+                <div class="car-info">
+
+                    <img class="add_img" src="https://iconape.com/wp-content/files/ez/4201/png/01-13-6.png" alt="Car Image">
+                    <h2 style="margin-top: 100px; color: #474B4F;">Add car</h2>
+
+                </div>
+                
+            </div>
+        </a>
+        {% for car in user_car_list %}
+        <a href="">
+            <div class="car-card">
+
+                <div class="car-info">
+
+                    <img src="https://s.tmimgcdn.com/scr/800x500/275600/abstract-car-logo-design-template-v6_275611-original.jpg" alt="Car Image">
+                    <div class="user_field">
+                        <span class="span-title">Make: </span>
+                        <span class="span-prop">{{ car.make }}</span>
+                    </div>
+                    <div class="user_field">
+                        <span class="span-title">Model: </span>
+                        <span class="span-prop">{{ car.model }}</span>
+                    </div>
+                    <div class="user_field">
+                        <span class="span-title">Year: </span>
+                        <span class="span-prop">{{ car.year }}</span>
+                    </div>
+
+                </div>
+                
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+        
+
+</body>
+</html>

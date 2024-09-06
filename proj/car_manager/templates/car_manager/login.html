@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign in</title>
+    <link rel="stylesheet" href="{% static 'styles/login_style.css' %}">
+  </head>
+  <body>
+    <form action="{% url 'login' %}" method="post">
+      {% csrf_token %}
+
+      {{ form.username.label }}
+      {{ form.username }}
+
+      {{ form.password.label }}
+      {{ form.password }}
+
+      <button type="submit">Submit</button>
+      <div class="reg_redirect">
+        <a href="{% url 'reg' %}">Registration</a>
+      </div>
+    </form>
+  </body>
+</html>

@@ -6,14 +6,20 @@
             <ul style="justify-content: space-between;">
                 <a href="{% url 'index' %}"><li>Main page</li></a>
                 <div style="display: flex; flex-direction: row;">
-                    <li><a href="">My cars</a></li>
-                    <li><a href="">Logout</a></li>
+                    <li><a href="{% url 'user_cars' %}">My cars</a></li>
+                    <li>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">Logout</button>
+                        </form>
+                    </li>
                 </div>
                 
             </ul>
         {% else %}
-            <ul style="justify-content: right;">
-                <li><a href="{% url 'logout' %}">Login</a></li>
+            <ul style="justify-content: space-between;">
+                <a href="{% url 'index' %}"><li>Main page</li></a>
+                <li><a href="{% url 'login' %}">Login</a></li>
             </ul>
         {% endif %}
     </nav>

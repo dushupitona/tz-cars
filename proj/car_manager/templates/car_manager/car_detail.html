@@ -53,11 +53,16 @@
                     <p>{{ comment.content }}</p>
                 </div>
             {% endfor %}
-            <form class="comment-form" action="{% url 'car_detail' object.id %}" method="post">
-                {% csrf_token %}
-                {{ comment_form.content }}
-                <button type="submit">Submit comment</button>
-            </form>
+
+            {% if user.is_authenticated %}
+                <form class="comment-form" action="{% url 'car_detail' object.id %}" method="post">
+                    {% csrf_token %}
+                    {{ comment_form.content }}
+                    <button type="submit">Submit comment</button>
+                </form>
+            {% else %}
+                <h2 style="color: #474B4F;">You must be logged in to write a comment.</h2>
+            {% endif %}
           </div>
     </div>  
 </body>
