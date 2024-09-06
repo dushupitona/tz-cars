@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Characteristics</title>
-    <link rel="stylesheet" href="{% static 'styles/car_detail_style.css' %}">
+	<title>Update car</title>
+    <link rel="stylesheet" href="{% static 'styles/update_car_style.css' %}">
 </head>
 <body>
     {% include 'car_manager/header.html' %}
@@ -26,7 +26,7 @@
                 </div>
                 <div class="car_field">
                     <span class="span-title">Description: </span>
-                    <p style="width: 800px; overflow-wrap: break-word;">{{ object.description }}</p>
+                    <p style="width: 500px; overflow-wrap: break-word;">{{ object.description }}</p>
                 </div>
                 <div class="car_field">
                     <span class="span-title">Created at: </span>
@@ -36,34 +36,22 @@
                     <span class="span-title">Updated at: </span>
                     <span class="span-prop">{{ object.updated_at }}</span>
                 </div>
-                <div class="car_field">
-                    <span class="span-title">Owner: </span>
-                    <span class="span-prop">{{ object.owner.username }}</span>
-                </div>
-	    	</div>
-	    </div>
-	    <div class="comments">
-            <h2>Comments</h2>
-            {% for comment in object.comments.all %}
-                <div class="comment-block">
-                    <div class="comment_title">
-                        <span class="username">{{ comment.author }}</span>
-                        <span class="comment_date">{{ comment.created_at }}</span>
-                    </div>
-                    <p>{{ comment.content }}</p>
-                </div>
-            {% endfor %}
 
-            {% if user.is_authenticated %}
-                <form class="comment-form" action="{% url 'car_detail' object.id %}" method="post">
-                    {% csrf_token %}
-                    {{ comment_form.content }}
-                    <button type="submit">Submit comment</button>
-                </form>
-            {% else %}
-                <h2 style="color: #474B4F;">You must be logged in to write a comment.</h2>
-            {% endif %}
-          </div>
+	    	</div>
+            
+            <form class="update-form" action="{% url 'update_car' object.id %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Update</button>
+            </form>
+            <form method="post" action="{% url 'delete_car' object.id %}">
+                {% csrf_token %}
+                {{ del_form }}
+                <button type="submit" class="del_button">Delete</button>
+            </form>
+            
+	    </div>
+
     </div>  
 </body>
 </html>

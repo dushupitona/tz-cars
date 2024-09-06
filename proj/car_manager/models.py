@@ -12,7 +12,7 @@ class CarModel(models.Model):
     year = models.CharField(max_length=4, validators=[year_validator])
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from car_manager.views import CarListView, CarDetailView, CustomLoginView, CustomLogoutView, RegView, UserCarListView
+from car_manager.views import CarListView, CarDetailView, CustomLoginView, CustomLogoutView, RegView, \
+    UserCarListView, CreateCarView, UpdateCarView, DeleteCarView
 from django.urls import path, include
 
 
@@ -29,4 +30,7 @@ urlpatterns = [
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('registration/', RegView.as_view(), name='reg'),
     path('mycars/', UserCarListView.as_view(), name='user_cars'),
+    path('mycars/create_car/', CreateCarView.as_view(), name='create_car'),
+    path('mycars/update_car/<pk>', UpdateCarView.as_view(), name='update_car'),
+    path('mycars/<pk>/delete/', DeleteCarView.as_view(), name='delete_car'),
 ]

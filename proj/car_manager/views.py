@@ -1,15 +1,18 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 
 
 from car_manager.models import CarModel
-from car_manager.froms import CommentForm
+from car_manager.forms import CommentForm, CreateCarForm, UpdateCarForm
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import authenticate, login
+
+from car_manager.premissions import OwnerPermissionMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # <------------ Cars ------------>
 
@@ -37,7 +40,8 @@ class CarDetailView(DetailView):
         return HttpResponseRedirect(reverse_lazy('car_detail', args=[self.get_object().id]))
     
 
-class UserCarListView(ListView):
+class UserCarListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = CarModel
     template_name = 'car_manager/user_cars.html'
     context_object_name = 'user_car_list'
@@ -45,7 +49,41 @@ class UserCarListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(owner=self.request.user)
         return queryset
+    
+
+class CreateCarView(LoginRequiredMixin, FormView):
+    login_url = reverse_lazy('login')
+    form_class = CreateCarForm
+    template_name = 'car_manager/create_car.html'
+    success_url = reverse_lazy('user_cars')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        form.save()
+        return super().form_valid(form)
         
+
+class UpdateCarView(LoginRequiredMixin, OwnerPermissionMixin, UpdateView):
+    login_url = reverse_lazy('login')
+    permission_required = 'can_update_car'
+    model = CarModel
+    form_class = UpdateCarForm
+    template_name = 'car_manager/update_car.html'
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
+
+    def get_object(self):
+        return CarModel.objects.get(pk=self.kwargs['pk'])
+    
+
+class DeleteCarView(LoginRequiredMixin, OwnerPermissionMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    permission_required = 'can_update_car'
+    model = CarModel
+    success_url = reverse_lazy('user_cars')
+    verbose_name = 'del_form'
+    
     
 
 # <------------ User ------------>

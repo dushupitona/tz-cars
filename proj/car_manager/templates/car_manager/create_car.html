@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create car</title>
+    <link rel="stylesheet" href="{% static 'styles/create_car_style.css' %}">
+</head>
+<body>
+    {% include 'car_manager/header.html' %}
+    
+    <div class="form-block">
+      <form action="{% url 'create_car' %}" method="post">
+
+          {% csrf_token %}
+
+          <span class="span-title">Make: </span>
+          {{ form.make }}
+
+          <span class="span-title">Model: </span>
+          {{ form.model }}
+
+          <span class="span-title">Year: </span>
+          {{ form.year }}
+
+          <span class="span-title">Description: </span>
+          {{ form.description }}
+
+          <button type="submit">Submit</button>
+
+      </form>
+    </div>
+    </body>
+</html>

@@ -40,9 +40,6 @@ span {
     width: 60%;
     margin-left: 40px;
 }
-.comments {
-    margin-top: 20px;
-}
 
 img {
     height: 400px;
@@ -55,28 +52,15 @@ h2 {
 }
 
 
-/* comments */
+/* update form */
 
-.comments {
-    max-width: 800px;
+
+.update-form {
+    margin-right: 20px;
+    margin-left: 20px;
 }
   
-.comment-block {
-    display: inline-block;
-    min-height: 100px;
-    width: 802px;
-    background-color: whitesmoke;
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    margin-bottom: 10px;
-}
-  
-.comment-form {
-    margin-top: 20px;
-}
-  
-.comment-form input[type="text"], .comment-form textarea {
+.update-form input[type="text"], .update-form textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -84,30 +68,33 @@ h2 {
     border-radius: 7px;
 }
   
-.comment-form button[type="submit"] {
+.update-form button[type="submit"] {
     background-color: #1a6b01;
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 210px;
 }
   
-.comment-form button[type="submit"]:hover {
+.update-form button[type="submit"]:hover {
     background-color: #114900;
 }
 
-.username {
-    color: #474B4F;
+
+.del_button {
+    background-color: #cc0000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    margin-top: 430px;
+}
+  
+.del_button:hover {
+    background-color: #810000;
 }
 
-.comment_title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.comment_date {
-    font-size: small;
-    color: #474B4F;
-}
