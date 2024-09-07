@@ -65,7 +65,7 @@ class CreateCarView(LoginRequiredMixin, FormView):
 
 class UpdateCarView(LoginRequiredMixin, OwnerPermissionMixin, UpdateView):
     login_url = reverse_lazy('login')
-    permission_required = 'can_update_car'
+    permission_required = 'car_manager.can_update_car'
     model = CarModel
     form_class = UpdateCarForm
     template_name = 'car_manager/update_car.html'
@@ -74,12 +74,12 @@ class UpdateCarView(LoginRequiredMixin, OwnerPermissionMixin, UpdateView):
         return self.request.META.get('HTTP_REFERER')
 
     def get_object(self):
-        return CarModel.objects.get(pk=self.kwargs['pk'])
+        return CarModel.objects.select_related('owner').get(pk=self.kwargs['pk'])
     
 
 class DeleteCarView(LoginRequiredMixin, OwnerPermissionMixin, DeleteView):
     login_url = reverse_lazy('login')
-    permission_required = 'can_update_car'
+    permission_required = 'car_manager.can_update_car'
     model = CarModel
     success_url = reverse_lazy('user_cars')
     verbose_name = 'del_form'
