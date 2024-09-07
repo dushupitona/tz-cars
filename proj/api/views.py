@@ -1,95 +1,49 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework import serializers
 
 from car_manager.models import CarModel, CommentModel
-from api.serializers import CarListSerializer, CarSerializer, CarCreateSerializer, UpdateCarSerializer, CommentSerializer, CommentCreateSerializer
-
-from rest_framework.authtoken.models import Token
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-
-from rest_framework.response import Response
-
-from api.permissions import OwnerPermission
-from django.http import Http404
 
 
-
-# просмотр/обновление характеристик машины, удаление машины
-class CarDetailAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = CarModel.objects.all()
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated, OwnerPermission)
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return CarSerializer
-        elif self.request.method == 'PUT':
-            return UpdateCarSerializer
-    
-    def get_object(self):
-        pk = self.kwargs['pk']
-        try:
-            return CarModel.objects.get(pk=pk)
-        except CarModel.DoesNotExist:
-            raise Http404({'error': 'Invalid car id'})
-        
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response({'message': 'Success'})
-    
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response({'message': 'Car deleted successfully'})
+class CarListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarModel
+        fields = ['id']
 
 
-# просмотр списка id машин/добавление машины
-class CarAPIView(ListCreateAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated, OwnerPermission)
-    queryset = CarModel.objects.all()
-    
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return CarListSerializer
-        elif self.request.method == 'POST':
-            return CarCreateSerializer
+class CarSerializer(serializers.ModelSerializer):
+    owner = serializers.SlugRelatedField(slug_field='username', read_only=True)  
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        user_token = request.auth.key
-        serializer.validated_data['owner'] = Token.objects.select_related('user').get(key=user_token).user
-        self.perform_create(serializer)
-
-        return Response({'message': 'Success'})
-    
-    
-# просмотр/добавление комментариев
-class CommentAPIView(ListCreateAPIView):
-    authentication_classes = (TokenAuthentication,)
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return CommentSerializer
-        elif self.request.method == 'POST':
-            return CommentCreateSerializer
+    class Meta:
+        model = CarModel
+        fields = ['make', 'model', 'year', 'description', 'created_at', 'updated_at', 'owner']
 
     def get_queryset(self):
-        car_id = self.kwargs['pk']
-        return CommentModel.objects.select_related('author').filter(car_id=car_id)
+        return CarModel.objects.select_related('owner')
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
-        user_token = request.auth.key
-        serializer.validated_data['author'] = Token.objects.select_related('user').get(key=user_token).user
-        serializer.validated_data['car_id'] = self.kwargs['pk']
-        self.perform_create(serializer)
+class CarCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarModel
+        fields = ['make', 'model', 'year', 'description']
 
-        return Response({'message': 'Success'})
+
+class UpdateCarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarModel
+        fields = ['make', 'model', 'year', 'description']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(slug_field='username', read_only=True)  
+
+    class Meta:
+        model = CommentModel
+        fields = ['content', 'created_at', 'car', 'author']
+
+    def get_queryset(self):
+        return CarModel.objects.select_related('author')
+    
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommentModel
+        fields = ['content']
