@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.permissions import OwnerPermission
+from django.http import Http404
 
 
 
@@ -24,13 +25,25 @@ class CarDetailAPIView(RetrieveUpdateDestroyAPIView):
             return CarSerializer
         elif self.request.method == 'PUT':
             return UpdateCarSerializer
-
+    
+    def get_object(self):
+        pk = self.kwargs['pk']
+        try:
+            return CarModel.objects.get(pk=pk)
+        except CarModel.DoesNotExist:
+            raise Http404({'error': 'Invalid car id'})
+        
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response(serializer.data)
+        return Response({'message': 'Success'})
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'message': 'Car deleted successfully'})
 
 
 # просмотр списка id машин/добавление машины
@@ -53,8 +66,7 @@ class CarAPIView(ListCreateAPIView):
         serializer.validated_data['owner'] = Token.objects.select_related('user').get(key=user_token).user
         self.perform_create(serializer)
 
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=201, headers=headers)
+        return Response({'message': 'Success'})
     
     
 # просмотр/добавление комментариев
@@ -80,5 +92,4 @@ class CommentAPIView(ListCreateAPIView):
         serializer.validated_data['car_id'] = self.kwargs['pk']
         self.perform_create(serializer)
 
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=201, headers=headers)
+        return Response({'message': 'Success'})

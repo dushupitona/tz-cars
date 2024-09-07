@@ -1,7 +1,6 @@
 from django import forms
 from car_manager.models import CommentModel, CarModel
 from django.forms.widgets import Textarea
-from django.utils import timezone
 
 class CommentForm(forms.ModelForm):
     class Meta:
