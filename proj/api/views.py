@@ -29,7 +29,9 @@ class CarDetailAPIView(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         pk = self.kwargs['pk']
         try:
-            return CarModel.objects.get(pk=pk)
+            obj = CarModel.objects.select_related('owner').get(pk=pk)
+            self.check_object_permissions(self.request, obj)
+            return obj
         except CarModel.DoesNotExist:
             raise Http404({'error': 'Invalid car id'})
         
@@ -49,7 +51,7 @@ class CarDetailAPIView(RetrieveUpdateDestroyAPIView):
 # просмотр списка id машин/добавление машины
 class CarAPIView(ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated, OwnerPermission)
+    permission_classes = (IsAuthenticated,)    
     queryset = CarModel.objects.all()
     
     def get_serializer_class(self):
@@ -72,12 +74,14 @@ class CarAPIView(ListCreateAPIView):
 # просмотр/добавление комментариев
 class CommentAPIView(ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)  
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return CommentSerializer
         elif self.request.method == 'POST':
             return CommentCreateSerializer
+    
 
     def get_queryset(self):
         car_id = self.kwargs['pk']
@@ -86,6 +90,13 @@ class CommentAPIView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        
+        car_id = self.kwargs['pk']
+
+        try:
+            car = CarModel.objects.get(pk=car_id)
+        except CarModel.DoesNotExist:
+            raise Http404({'error': 'Invalid car id'})
 
         user_token = request.auth.key
         serializer.validated_data['author'] = Token.objects.select_related('user').get(key=user_token).user
