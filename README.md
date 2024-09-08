@@ -2,16 +2,25 @@
 
 > ## Запуск проекта ##
 > ### С использованием Docker: ###
-> ## Запуск проекта ##
 > 1. Склонируйте проект: ``` git clone https://github.com/dushupitona/tz-cars.git ```
 > 2. Перейдите в директорию проекта: ``` cd tz-cars ```
 > 3. Запустите команду ``` docker-compose up --build ```
 > 4. Перейдите по адресу <http://localhost:8000>
 >
 > ### Без использования Docker: ###
-> 1. Склонируйте проект
-> 2. Перейдите в директорию проекта
-> 3. Запустите команду ``` docker-compose up --build```
+> 1. Склонируйте проект: ``` git clone -b no_docker https://github.com/dushupitona/tz-cars.git ``` 
+> 2. Перейдите в директорию проекта: ``` cd tz-cars ```
+> 3. Выполните комманды:
+> > - ``` python -m venv venv ```
+> > - ``` venv\scripts\activate ```
+> > - ``` cd proj ```
+> > - ``` pip install -r requirements.txt ```
+> > - ``` python manage.py makemigrations ```
+> > - ``` python manage.py migrate ```
+> > - ``` python manage.py loaddata fixtures/users.json ```
+> > - ``` python manage.py loaddata fixtures/cars.json ```
+> > - ``` python manage.py loaddata fixtures/comments.json ```
+> > - ``` python manage.py runserver ```
 > 4. Перейдите по адресу http://localhost:8000
 
 > ## Существующие пользователи ##
