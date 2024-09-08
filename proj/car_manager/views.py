@@ -11,7 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import authenticate, login
 
-from car_manager.premissions import OwnerPermissionMixin
+from car_manager.permissions import OwnerPermissionMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # <------------ Cars ------------>
