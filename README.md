@@ -1,4 +1,11 @@
 # Тестовое задание 'Веб-приложение для управления информацией об автомобилях' #
+> ## Обзор ##
+> ![Снимок экрана 2024-10-02 120021](https://github.com/user-attachments/assets/a8322de1-aa5a-4665-8e71-5eeaf356d59d)
+> ![Снимок экрана 2024-10-02 120303](https://github.com/user-attachments/assets/d659260c-b118-4966-a744-1c4460a1880b)
+> ![Снимок экрана 2024-10-02 120625](https://github.com/user-attachments/assets/e460af96-5b97-43dc-9a88-0ea25708fe90)
+> ![image](https://github.com/user-attachments/assets/3fea716e-aee0-4679-886f-2a6088ba0b4f)
+
+
 
 > ## Запуск проекта ##
 > ### С использованием Docker: ###
